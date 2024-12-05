@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depands, HTTPException
 from pydantic import BaseModel
-from sqlalchemy import create_engine, Column, Integer, String, Boolean
+from sqlalchemy import create_engine, Column, Integer, String, Boolean, Date
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 
@@ -14,8 +14,10 @@ SessionLocal =sessionmaker(autocommit = False, autoflush = False, bind = engine)
 class Todo(Base):
     _tablename_ = "todos"
     id = Column(Integer, primary = True, index = True)
-    title = Column(String, nullable=True)
+    title = Column(String(100), nullable=False)
+    description = Column(String, nullable=True)
     completed = Column(Boolean, default = False)
+    due_date = Column(Date, nullable=True)
 # Initialize Database's Table
 Base.metadara.creat_all(bind = engine)
 
